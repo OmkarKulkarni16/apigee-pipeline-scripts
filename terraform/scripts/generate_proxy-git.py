@@ -5,16 +5,16 @@ from zipfile import ZipFile
 import argparse
 
 # Get the current script's directory (the root of the repository)
-repo_directory = os.path.dirname(os.path.abspath(__file__))
-print("Repo PATH ======" + repo_directory)
-# Define relative paths based on the script's location
-source_tmpl_directory = os.path.join(repo_directory, 'templates', 'bundle', 'apiproxy')
-proxy_bundle_directory = os.path.join(repo_directory, 'proxies_export')  # Folder to store generated proxy bundles
-apiproxy_directory = os.path.join(proxy_bundle_directory, 'apiproxy')  # apiproxy folder
-policies_tmpl_directory = os.path.join(repo_directory, 'templates', 'policies')
+repo_directory = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
+
+# Define the path for the templates and proxy bundle directories
+source_tmpl_directory = os.path.join(repo_directory, '..', 'templates', 'bundle', 'apiproxy')  # Go up one level and then into templates
+proxy_bundle_directory = os.path.join(repo_directory, '..', 'proxies_export')  # Go up one level and then into proxies_export
+apiproxy_directory = os.path.join(proxy_bundle_directory, 'apiproxy')  # apiproxy folder inside proxies_export
+policies_tmpl_directory = os.path.join(repo_directory, '..', 'templates', 'policies')  # Go up one level and then into templates
 
 # Add the 'scripts' directory to the system path (if required for config import)
-sys.path.append(os.path.join(repo_directory, 'scripts'))
+sys.path.append(os.path.join(repo_directory, '..', 'scripts'))  # Going up one level to scripts
 
 # Import variables from the config file (assuming this file is also in the repository)
 from config import variables
