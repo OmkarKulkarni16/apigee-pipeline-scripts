@@ -6,7 +6,7 @@ import argparse
 
 # Get the current script's directory (the root of the repository)
 repo_directory = os.path.dirname(os.path.abspath(__file__))
-
+print("Repo PATH ======" + repo_directory)
 # Define relative paths based on the script's location
 source_tmpl_directory = os.path.join(repo_directory, 'templates', 'bundle', 'apiproxy')
 proxy_bundle_directory = os.path.join(repo_directory, 'proxies_export')  # Folder to store generated proxy bundles
