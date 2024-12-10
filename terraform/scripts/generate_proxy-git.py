@@ -4,8 +4,17 @@ import string
 from zipfile import ZipFile
 import argparse
 
+# Get the current script's directory (the root of the repository)
+repo_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Define relative paths based on the script's location
+source_tmpl_directory = os.path.join(repo_directory, 'templates', 'bundle', 'apiproxy')
+proxy_bundle_directory = os.path.join(repo_directory, 'proxies_export')  # Folder to store generated proxy bundles
+apiproxy_directory = os.path.join(proxy_bundle_directory, 'apiproxy')  # apiproxy folder
+policies_tmpl_directory = os.path.join(repo_directory, 'templates', 'policies')
+
 # Add the 'scripts' directory to the system path (if required for config import)
-sys.path.append(os.path.join(os.path.dirname(__file__), 'scripts'))
+sys.path.append(os.path.join(repo_directory, 'scripts'))
 
 # Import variables from the config file (assuming this file is also in the repository)
 from config import variables
@@ -26,13 +35,6 @@ def render_template(template_path, **kwargs):
 
 # Function to generate the proxy bundle
 def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_server_name, gcp_project_id, gcp_access_token):
-    # Define directories for templates and output files relative to the repository
-    repo_directory = os.path.dirname(os.path.abspath(__file__))  # Get the repository root directory
-    source_tmpl_directory = os.path.join(repo_directory, 'templates', 'bundle', 'apiproxy')
-    proxy_bundle_directory = os.path.join(repo_directory, 'proxies_export', proxy_name)  # API Name folder
-    apiproxy_directory = os.path.join(proxy_bundle_directory, 'apiproxy')  # apiproxy folder
-    policies_tmpl_directory = os.path.join(repo_directory, 'templates', 'policies')
-
     # Fetch categories from the config file
     categories = variables["categories"]  # Get the categories from config.py
 
@@ -89,7 +91,7 @@ def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_se
         f.write(target_endpoint_content)
 
     # Create a zip file containing the API name folder and its structure
-    zip_file_path = os.path.join(repo_directory, 'proxies_export', f"{proxy_name}.zip")
+    zip_file_path = os.path.join(proxy_bundle_directory, f"{proxy_name}.zip")
     with ZipFile(zip_file_path, 'w') as zipf:
         # Add the apiproxy folder and its content
         zipf.write(apiproxy_directory, os.path.relpath(apiproxy_directory, proxy_bundle_directory))  # Add the folder itself
