@@ -1,0 +1,5 @@
+gcp_project_id="booming-pride-432710-j9" 
+proxy_category="high" 
+proxy_name="newIndiaLinkLead" 
+proxy_base_path="/JoseHigh/new" 
+target_server_name="mocktarget-server-India" 

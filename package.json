@@ -1,0 +1,7 @@
+{
+    "name": "jenkins-cicd",
+    "version": "1.0.0",
+    "devDependencies": {
+      "apigeelint": "^2.13.0"
+    }
+}

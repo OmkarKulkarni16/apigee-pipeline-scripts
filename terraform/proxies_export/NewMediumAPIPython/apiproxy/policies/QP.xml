@@ -1,0 +1,5 @@
+<Quota name="QP">
+  <Interval>5</Interval>
+  <TimeUnit>hour</TimeUnit>
+  <Allow count="99"/>
+</Quota>

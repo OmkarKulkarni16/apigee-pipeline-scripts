@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="2" name="JoseMedium">
+  <DisplayName/>
+  <Description/>
+  <BasePaths>/JoseHigh/medium</BasePaths>
+  <Policies>
+    <Policy>VAPI</Policy>
+<Policy>QP</Policy>
+<Policy>ML</Policy>
+  </Policies>
+  <ProxyEndpoints>
+    <ProxyEndpoint>default</ProxyEndpoint>
+  </ProxyEndpoints>
+  <TargetEndpoints>
+    <TargetEndpoint>default</TargetEndpoint>
+  </TargetEndpoints>
+</APIProxy>
