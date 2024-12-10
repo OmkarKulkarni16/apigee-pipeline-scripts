@@ -4,11 +4,11 @@ import subprocess
 
 # Function to execute the PowerShell command
 def execute_powershell_command(gcp_access_token, gcp_project_id, proxy_bundle_path):
-    # Get the path to the scripts directory inside the GitHub repository
-    script_dir = os.path.join(os.path.dirname(__file__), "scripts")
+    # Get the path to the scripts directory inside the GitHub repository (no extra 'scripts' directory)
+    script_dir = os.path.dirname(__file__)  # This will be the directory where the Python script is located
     
     # Paths for the scripts and the zip file
-    script_path = os.path.join(script_dir, "validate.ps1")
+    script_path = os.path.join(script_dir, "validate.ps1")  # Now the correct path
     
     # Ensure the PowerShell script exists before proceeding
     if not os.path.exists(script_path):
