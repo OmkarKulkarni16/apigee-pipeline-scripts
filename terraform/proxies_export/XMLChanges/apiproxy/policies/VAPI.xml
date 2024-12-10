@@ -1,3 +1,0 @@
-<VerifyAPIKey name="VAPI">
-    <APIKey ref="request.queryparam.apikey" />
-</VerifyAPIKey>
