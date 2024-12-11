@@ -64,7 +64,7 @@ limitations under the License.
 			<!-- Apigee Edge -->
 			<id>apigeeapi</id>
 			<properties>
-				<apigee.plugin.version>1.3.3</apigee.plugin.version>
+				<apigee.plugin.version>2.3.5</apigee.plugin.version>
 				<apigee.config-plugin.version>1.5.3</apigee.config-plugin.version>
 				<apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
 				<apigee.authtype>oauth</apigee.authtype>
@@ -113,13 +113,11 @@ limitations under the License.
 							<overwrite>true</overwrite>
 							<resources>
 								<resource>
-									<directory>${apigee.proxy.bundle.path}</directory>
+									<!-- Directly point to the 'apiproxy' folder -->
+									<directory>C:\ProgramData\Jenkins\.jenkins\workspace\Template-Based-Deployment\Git-Python-Testing\apigee-pipeline-scripts\terraform\proxies_export\apiproxy</directory>
 									<filtering>true</filtering>
 									<includes>
-										<include>apiproxy/**</include>
-										<include>sharedflowbundle/**</include>
-										<include>test/integration/**</include>
-										<include>resources/**</include>
+										<include>**/*</include>
 									</includes>
 								</resource>
 							</resources>
@@ -128,6 +126,7 @@ limitations under the License.
 					</execution>
 				</executions>
 			</plugin>
+
 
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
@@ -256,23 +255,34 @@ limitations under the License.
 				<artifactId>apigee-edge-maven-plugin</artifactId>
 				<version>${apigee.plugin.version}</version>
 				<executions>
+					<!-- Configure the bundle -->
 					<execution>
 						<id>configure-bundle-step</id>
 						<phase>package</phase>
 						<goals>
 							<goal>configure</goal>
 						</goals>
+						<configuration>
+							<!-- Pointing to the apiproxy folder location -->
+							<apigee.proxy.bundle.path>C:\ProgramData\Jenkins\.jenkins\workspace\Template-Based-Deployment\Git-Python-Testing\apigee-pipeline-scripts\terraform\proxies_export\apiproxy</apigee.proxy.bundle.path>
+						</configuration>
 					</execution>
-					<!--deploy bundle -->
+
+					<!-- Deploy the bundle -->
 					<execution>
 						<id>deploy-bundle-step</id>
 						<phase>install</phase>
 						<goals>
 							<goal>deploy</goal>
 						</goals>
+						<configuration>
+							<!-- Optional: You can define any additional configurations required for deployment -->
+							<apigee.proxy.bundle.path>C:\ProgramData\Jenkins\.jenkins\workspace\Template-Based-Deployment\Git-Python-Testing\apigee-pipeline-scripts\terraform\proxies_export\apiproxy</apigee.proxy.bundle.path>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+
 
 			<!-- cleaning dirs -->
 			<plugin>
