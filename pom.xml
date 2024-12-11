@@ -263,7 +263,7 @@ limitations under the License.
 						</goals>
 						<configuration>
 							<!-- Hardcoded Windows path for the proxy bundle directory -->
-							<apigee.proxy.bundle.dir>C:/ProgramData/Jenkins/.jenkins/workspace/Template-Based-Deployment/Git-Python-Testing/apigee-pipeline-scripts/terraform/proxies_export/apiproxy</apigee.proxy.bundle.dir>
+							<apigee.proxy.bundle.path>C:/ProgramData/Jenkins/.jenkins/workspace/Template-Based-Deployment/Git-Python-Testing/apigee-pipeline-scripts/terraform/proxies_export/apiproxy</apigee.proxy.bundle.path>
 						</configuration>
 					</execution>
 					<!-- Deploy the bundle -->
@@ -275,7 +275,7 @@ limitations under the License.
 						</goals>
 						<configuration>
 							<!-- Hardcoded Windows path for the proxy bundle directory -->
-							<apigee.proxy.bundle.dir>C:/ProgramData/Jenkins/.jenkins/workspace/Template-Based-Deployment/Git-Python-Testing/apigee-pipeline-scripts/terraform/proxies_export/apiproxy</apigee.proxy.bundle.dir>
+							<apigee.proxy.bundle.path>C:/ProgramData/Jenkins/.jenkins/workspace/Template-Based-Deployment/Git-Python-Testing/apigee-pipeline-scripts/terraform/proxies_export/apiproxy</apigee.proxy.bundle.path>
 						</configuration>
 					</execution>
 				</executions>
