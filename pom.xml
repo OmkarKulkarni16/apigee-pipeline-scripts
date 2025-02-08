@@ -18,9 +18,9 @@ limitations under the License.
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>google-jenkins-pipeline</groupId>
-	<artifactId>${proxy.name}</artifactId>
+	<artifactId>apigee-proxy</artifactId>
 	<version>v1</version>
-	<name>${proxy.name}${deployment.suffix}</name>
+	<name>${proxy.name}</name>
 	<packaging>pom</packaging>
 	<pluginRepositories>
 		<pluginRepository>
@@ -43,21 +43,34 @@ limitations under the License.
 	</repositories>
 
 	<properties>
+		<!-- Encoding -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<org.slf4j.simpleLogger.defaultLogLevel>info</org.slf4j.simpleLogger.defaultLogLevel>
+
+		<!-- Project Directories -->
 		<project.root.dir>${basedir}</project.root.dir>
 		<target.root.dir>${basedir}/target</target.root.dir>
-		<deployment.suffix></deployment.suffix>
+		<apigee.proxy.bundle.path>${basedir}/python/proxies_export</apigee.proxy.bundle.path> <!-- Corrected path -->
+
+		<!-- Apigee Configuration -->
 		<apigee.options>override</apigee.options>
 		<apigee.apiversion>v1</apigee.apiversion>
 		<apigee.org>${org}</apigee.org>
 		<apigee.env>${env}</apigee.env>
-		<deployment.description>n/a</deployment.description>
+		<deployment.description>Deployment via Jenkins Pipeline</deployment.description>
 		<apigee.config.options>update</apigee.config.options>
 		<apigee.config.dir>resources/edge</apigee.config.dir>
-        <apigee.proxy.bundle.path>apiproxy</apigee.proxy.bundle.path> 
+
+		<!-- SonarQube Configuration -->
+		<sonar.sources>${basedir}/python/proxies_export</sonar.sources> <!-- Corrected source path -->
+		<sonar.projectKey>default-project-key</sonar.projectKey> <!-- Default project key -->
+		<sonar.projectName>Default Project Name</sonar.projectName> <!-- Default project name -->
+		<sonar.projectVersion>1.0</sonar.projectVersion>
+		<sonar.host.url>https://sonarqube.hdfcbank.com</sonar.host.url>
+		<sonar.login>default-sonar-token</sonar.login> <!-- Default token -->
 	</properties>
+
 
 	<profiles>
 		<profile>
@@ -72,6 +85,18 @@ limitations under the License.
 				<apigee.password>${password}</apigee.password>
 			</properties>
 		</profile>
+		
+		<profile>
+			<id>sonarqube</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<skipApigee>true</skipApigee>
+			</properties>
+		</profile>
+
+		
 		<profile>
 			<!-- Apigee X and hybrid -->
 			<id>googleapi</id>
@@ -98,6 +123,16 @@ limitations under the License.
 
 		<plugins>
 
+		
+			<plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.9.1.2184</version>
+            </plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.2.0</version>
+            </plugin>
 			<!-- copy the full apiproxy folder to target folder -->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -155,7 +190,7 @@ limitations under the License.
 						</replacement>
 						<replacement>
 							<token>/${proxy.name}/v1</token>
-							<value>/${proxy.name}${deployment.suffix}/v1</value>
+							<value>/${proxy.name}/v1</value>
 						</replacement>
 						<replacement>
 							<token>@description</token>
@@ -166,18 +201,20 @@ limitations under the License.
 			</plugin>
 
 			<plugin>
-                <groupId>com.apigee.edge.config</groupId>
-                <artifactId>apigee-config-maven-plugin</artifactId>
-                <version>${apigee.config-plugin.version}</version>
-
+				<groupId>com.apigee.edge.config</groupId>
+				<artifactId>apigee-config-maven-plugin</artifactId>
+				<version>1.5.3</version>
+				<configuration>
+					<skip>${skipApigee}</skip> <!-- Add a configuration to skip the plugin -->
+				</configuration>
 				<executions>
-                    <execution>
-                        <id>create-config-references</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>references</goal>
-                        </goals>
-                    </execution>
+					<execution>
+						<id>create-config-references</id>
+						<phase>install</phase>
+						<goals>
+							<goal>references</goal>
+						</goals>
+					</execution>
 					<execution>
 						<id>create-config-keystores</id>
 						<phase>install</phase>
@@ -192,69 +229,70 @@ limitations under the License.
 							<goal>aliases</goal>
 						</goals>
 					</execution>
-                    <execution>
-                        <id>create-config-targetserver</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>targetservers</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>create-config-kvm</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>keyvaluemaps</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>create-config-resourcefiles</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>resourcefiles</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>create-config-apiproduct</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>apiproducts</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>create-config-developer</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>developers</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>create-config-app</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>apps</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>create-config-reports</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>reports</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>create-config-flowhooks</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>flowhooks</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+					<execution>
+						<id>create-config-targetserver</id>
+						<phase>install</phase>
+						<goals>
+							<goal>targetservers</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>create-config-kvm</id>
+						<phase>install</phase>
+						<goals>
+							<goal>keyvaluemaps</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>create-config-resourcefiles</id>
+						<phase>install</phase>
+						<goals>
+							<goal>resourcefiles</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>create-config-apiproduct</id>
+						<phase>install</phase>
+						<goals>
+							<goal>apiproducts</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>create-config-developer</id>
+						<phase>install</phase>
+						<goals>
+							<goal>developers</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>create-config-app</id>
+						<phase>install</phase>
+						<goals>
+							<goal>apps</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>create-config-reports</id>
+						<phase>install</phase>
+						<goals>
+							<goal>reports</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>create-config-flowhooks</id>
+						<phase>install</phase>
+						<goals>
+							<goal>flowhooks</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 
 			<plugin>
 				<groupId>io.apigee.build-tools.enterprise4g</groupId>
 				<artifactId>apigee-edge-maven-plugin</artifactId>
-				<version>${apigee.plugin.version}</version>
+				<version>2.3.5</version>
 				<executions>
 					<execution>
 						<id>configure-bundle-step</id>
@@ -262,17 +300,23 @@ limitations under the License.
 						<goals>
 							<goal>configure</goal>
 						</goals>
+						<configuration>
+							<skip>${skipApigee}</skip>
+						</configuration>
 					</execution>
-					<!--deploy bundle -->
 					<execution>
 						<id>deploy-bundle-step</id>
 						<phase>install</phase>
 						<goals>
 							<goal>deploy</goal>
 						</goals>
+						<configuration>
+							<skip>${skipApigee}</skip>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+
 
 			<!-- cleaning dirs -->
 			<plugin>

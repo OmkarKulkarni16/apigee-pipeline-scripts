@@ -1,4 +1,0 @@
-<SpikeArrest name="SA">
-  <Rate>5ps</Rate>
-  <UseEffectiveCount>false</UseEffectiveCount>
-</SpikeArrest>
