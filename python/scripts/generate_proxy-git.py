@@ -30,6 +30,7 @@ def clean_old_files():
     """Deletes all old XML files before generating a new one"""
     for filename in os.listdir(apiproxy_directory):
         if filename.endswith(".xml"):
+            print(f"🗑️ Deleting old XML file: {filename}")  # Debugging
             os.remove(os.path.join(apiproxy_directory, filename))
 
 # Function to generate policies template
