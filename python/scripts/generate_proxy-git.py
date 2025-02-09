@@ -5,7 +5,7 @@ from zipfile import ZipFile
 import argparse
 
 # Get the current script's directory (the root of the repository)
-repo_directory = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
+repo_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Define paths
 source_tmpl_directory = os.path.join(repo_directory, '..', 'templates', 'bundle', 'apiproxy') 
@@ -21,14 +21,15 @@ os.makedirs(apiproxy_directory, exist_ok=True)
 sys.path.append(os.path.join(repo_directory, '..', 'scripts'))  
 from config import variables  
 
-# Function to sanitize proxy name (prevent encoding issues)
+# ✅ Function to sanitize proxy name (prevent encoding issues)
 def clean_name(name):
     return name.replace(' ', '_').replace('\n', '').replace('\r', '').strip()
 
-# Function to remove old files before creating a new one
-def clean_old_files(proxy_name):
+# ✅ Function to clean **all old XML files** before generating a new one
+def clean_old_files():
+    """Deletes all old XML files before generating a new one"""
     for filename in os.listdir(apiproxy_directory):
-        if proxy_name in filename and filename.endswith(".xml"):
+        if filename.endswith(".xml"):
             os.remove(os.path.join(apiproxy_directory, filename))
 
 # Function to generate policies template
@@ -50,7 +51,7 @@ def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_se
     proxy_name = clean_name(proxy_name)  # Sanitize proxy name
 
     # ✅ Clean old XML files before generating new ones
-    clean_old_files(proxy_name)
+    clean_old_files()
 
     # Fetch policies from the config file
     categories = variables.get("categories", {})  
