@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables async="false" continueOnError="false" enabled="true" name="EV-setResponseErrorCodeLogs">
+    <DisplayName>EV-setResponseErrorCodeLogs</DisplayName>
+    <Properties/>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <JSONPayload>
+        <Variable name="resp-replyCode">
+            <JSONPath>$.status.replyCode</JSONPath>
+        </Variable>
+        <Variable name="resp-replyText">
+            <JSONPath>$.status.replyText</JSONPath>
+        </Variable>
+        <Variable name="resp-ErrorCode">
+            <JSONPath>$.status.errorCode</JSONPath>
+        </Variable>
+        <Variable name="resp-errorCode">
+            <JSONPath>$.errorCode</JSONPath>
+        </Variable>
+        <Variable name="resp-errorDescription">
+            <JSONPath>$.errorDescription</JSONPath>
+        </Variable>
+    </JSONPayload>
+    <Source clearPayload="false">response</Source>
+</ExtractVariables>

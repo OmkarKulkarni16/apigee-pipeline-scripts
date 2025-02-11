@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage continueOnError="false" enabled="true" name="AM-captureRespErrorCodes">
+    <DisplayName>AM-captureRespErrorCodes</DisplayName>
+    <Properties/>
+    <AssignVariable>
+        <Name>backendErrorCode</Name>
+        <Template>replyCode: {resp-replyCode}, code: {resp-errorCode}</Template>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>backendErrorMessage</Name>
+        <Template>replyText: {resp-replyText}, message: {resp-errorDescription}</Template>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>
