@@ -21,11 +21,11 @@ os.makedirs(apiproxy_directory, exist_ok=True)
 sys.path.append(os.path.join(repo_directory, '..', 'scripts'))  
 from config import variables  
 
-# ✅ Function to sanitize proxy name (prevent encoding issues)
+# Function to sanitize proxy name (prevent encoding issues)
 def clean_name(name):
     return name.replace(' ', '_').replace('\n', '').replace('\r', '').strip()
 
-# ✅ Function to clean **all old XML files** before generating a new one
+# Function to clean **all old XML files** before generating a new one
 def clean_old_files():
     """Deletes all old XML files before generating a new one"""
     for filename in os.listdir(apiproxy_directory):
@@ -51,7 +51,7 @@ def render_template(template_path, **kwargs):
 def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_server_name, gcp_project_id, gcp_access_token):
     proxy_name = clean_name(proxy_name)  # Sanitize proxy name
 
-    # ✅ Clean old XML files before generating new ones
+    #Clean old XML files before generating new ones
     clean_old_files()
 
     # Fetch policies from the config file
@@ -62,7 +62,7 @@ def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_se
     policies_tmpl = generate_policies_template(policies_list)
     proxies_tmpl = generate_proxies_template(policies_list)
 
-    # ✅ Generate the main proxy XML file
+    #Generate the main proxy XML file
     proxy_root_content = render_template(
         os.path.join(source_tmpl_directory, "git.xml"),
         proxy_name=proxy_name,
@@ -73,7 +73,7 @@ def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_se
     with open(proxy_root_path, "w", encoding="utf-8") as f:
         f.write(proxy_root_content)
 
-    # ✅ Generate policies (only if they exist)
+    # Generate policies (only if they exist)
     policies_folder = os.path.join(apiproxy_directory, "policies")
     os.makedirs(policies_folder, exist_ok=True)
     for policy in policies_list:
@@ -84,7 +84,7 @@ def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_se
             with open(os.path.join(policies_folder, f"{policy}.xml"), "w", encoding="utf-8") as f:
                 f.write(policy_content)
 
-    # ✅ Generate proxy endpoint file
+    #Generate proxy endpoint file
     proxies_folder = os.path.join(apiproxy_directory, "proxies")
     os.makedirs(proxies_folder, exist_ok=True)
     proxy_endpoint_content = render_template(
@@ -96,7 +96,7 @@ def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_se
     with open(os.path.join(proxies_folder, "default.xml"), "w", encoding="utf-8") as f:
         f.write(proxy_endpoint_content)
 
-    # ✅ Generate target endpoint file
+    #Generate target endpoint file
     targets_folder = os.path.join(apiproxy_directory, "targets")
     os.makedirs(targets_folder, exist_ok=True)
     target_endpoint_content = render_template(
@@ -106,7 +106,7 @@ def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_se
     with open(os.path.join(targets_folder, "default.xml"), "w", encoding="utf-8") as f:
         f.write(target_endpoint_content)
 
-    # ✅ Create a zip file with only the correct structure
+    #Create a zip file with only the correct structure
     zip_file_path = os.path.join(proxy_bundle_directory, f"{proxy_name}.zip")
     with ZipFile(zip_file_path, 'w') as zipf:
         for root, _, files in os.walk(apiproxy_directory):
@@ -114,13 +114,13 @@ def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_se
                 file_path = os.path.join(root, file)
                 zipf.write(file_path, os.path.relpath(file_path, proxy_bundle_directory))
 
-    # ✅ Log generated proxy details
-    print(f"✅ Proxy bundle generated: {zip_file_path}")
-    print(f"✅ Proxy name: {proxy_name}")
-    print(f"✅ Proxy base path: {proxy_base_path}")
-    print(f"✅ Proxy category: {proxy_category}")
+    # Log generated proxy details
+    print(f"Proxy bundle generated: {zip_file_path}")
+    print(f"Proxy name: {proxy_name}")
+    print(f"Proxy base path: {proxy_base_path}")
+    print(f"Proxy category: {proxy_category}")
 
-# ✅ Main function to handle command-line arguments
+# Main function to handle command-line arguments
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--proxy_category', required=True)
