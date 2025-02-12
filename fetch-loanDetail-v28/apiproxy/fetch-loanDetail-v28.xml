@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="2" name="fetch-loanDetail-v28">
+  <DisplayName/>
+  <Description/>
+  <BasePaths>/api/v28/fetch-loanDetail</BasePaths>
+  <Policies>
+    <Policy>AM-captureRespErrorCodes</Policy>
+<Policy>AM-commonLogging</Policy>
+<Policy>AM-RequestPayloadToBackendLog</Policy>
+<Policy>AM-responsePayloadFromBackendLog</Policy>
+<Policy>AM-responseToClientBefore_Enc</Policy>
+<Policy>AM-responseToClientLog</Policy>
+<Policy>AM-setErrorResponsePayload</Policy>
+<Policy>AM-setErrorRespPayload</Policy>
+<Policy>AM-SetPayload</Policy>
+<Policy>AM-setPayloadResponse</Policy>
+<Policy>AM-setSuccessFlag</Policy>
+<Policy>DC-captureResponseFields</Policy>
+<Policy>EV-setconsentRequestLogs</Policy>
+<Policy>EV-setResponseErrorCodeLogs</Policy>
+<Policy>FC-faultRules</Policy>
+<Policy>FC-joseDecryption</Policy>
+<Policy>FC-joseEncryption</Policy>
+<Policy>FC-Logging</Policy>
+<Policy>FC-preFlow</Policy>
+<Policy>FC-setResponseHeaders</Policy>
+<Policy>FC-ThreatProtection</Policy>
+<Policy>RF-faultResponseMethodNotAllowed</Policy>
+<Policy>RF-faultResponseNotFound</Policy>
+<Policy>RF-responsePayloadValidation</Policy>
+  </Policies>
+  <ProxyEndpoints>
+    <ProxyEndpoint>default</ProxyEndpoint>
+  </ProxyEndpoints>
+  <TargetEndpoints>
+    <TargetEndpoint>default</TargetEndpoint>
+  </TargetEndpoints>
+</APIProxy>
