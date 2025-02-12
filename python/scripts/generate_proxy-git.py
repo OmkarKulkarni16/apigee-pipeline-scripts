@@ -97,11 +97,11 @@ def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_se
     categories = variables["categories"]  
     policies_list = categories.get(proxy_category, [])
 
-        # ✅ Parse request and response variable mappings
+        # Parse request and response variable mappings
     request_variables_dict = parse_variable_mappings(request_variables_string)
     response_variables_dict = parse_variable_mappings(response_variables_string)
 
-    # ✅ Convert to JSON format for modifying policies
+    # Convert to JSON format for modifying policies
     request_variables_json = json.dumps(request_variables_dict, indent=2)
     response_variables_json = json.dumps(response_variables_dict, indent=2)
     
@@ -113,10 +113,10 @@ def generate_proxy_bundle(proxy_category, proxy_name, proxy_base_path, target_se
     policies_tmpl = generate_policies_template(policies_list)
     proxies_tmpl = generate_proxies_template(policies_list)
 
-    print("✅ Extracted Request Variables JSON:")
+    print("Extracted Request Variables JSON:")
     print(request_variables_json)
 
-    print("✅ Extracted Response Variables JSON:")
+    print("Extracted Response Variables JSON:")
     print(response_variables_json)
 
 
